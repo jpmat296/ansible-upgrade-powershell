@@ -1,0 +1,17 @@
+---
+# tasks file for upgrade_powershell
+- name: Request update of Powershell 5.1 after next reboot
+  win_scheduled_task:
+    name: Automatic update of Powershell to version 5.1
+    username: SYSTEM
+    run_level: highest
+    triggers:
+      - type: boot
+    actions:
+      - path: "{{ powershell_path }}"
+        arguments: choco install -y powershell
+  notify:
+    - Reboot host to trigger update
+    - Check update has started
+    - Wait end of update
+    - Reboot host to take account new powershell

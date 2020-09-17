@@ -1,0 +1,12 @@
+---
+- name: Verify
+  hosts: all
+  tasks:
+    - name: $PSVersionTable
+      win_shell: $PSVersionTable
+      register: version_cmd
+      changed_when: false
+    - assert:  # noqa 502
+        that:
+          - version_cmd.rc == 0
+          - "'PSVersion                      5.1.' in version_cmd.stdout"

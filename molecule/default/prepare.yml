@@ -1,0 +1,21 @@
+---
+- name: Prepare
+  hosts: all
+  roles:
+    - role: jpmat.remote_desktop
+  vars:
+    remote_desktop_enabled: true
+  tasks:
+    - name: Verify Powershell version before upgrade
+      block:
+        - win_shell: $PSVersionTable
+          register: version_cmd
+          changed_when: false
+        - assert:  # noqa 502
+            that:
+              - version_cmd.rc == 0
+              - "'PSVersion                      4.0' in version_cmd.stdout"
+    - name: Install Process Explorer
+      win_chocolatey:
+        name:
+          - procexp

@@ -1,0 +1,3 @@
+---
+# vars file for upgrade_powershell
+powershell_path: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe

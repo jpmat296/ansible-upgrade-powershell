@@ -1,0 +1,14 @@
+---
+# handlers file for upgrade_powershell
+- name: Reboot host to trigger update
+  win_reboot: {}
+- name: Check update has started
+  win_wait_for_process:
+    process_name_exact: choco
+    state: present
+- name: Wait end of update
+  win_wait_for_process:
+    process_name_exact: choco
+    state: absent
+- name: Reboot host to take account new powershell
+  win_reboot: {}
