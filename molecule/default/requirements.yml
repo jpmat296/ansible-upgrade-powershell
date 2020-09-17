@@ -1,4 +1,0 @@
----
-roles:
-  - name: jpmat.remote_desktop
-    src: https://github.com/jpmat296/ansible.remote-desktop
