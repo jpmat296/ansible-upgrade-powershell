@@ -1,5 +1,18 @@
 ---
 # tasks file for upgrade_powershell
+- name: Verify Powershell version before upgrade
+  block:
+    - name: Execute $PSVersionTable
+      win_shell: $PSVersionTable.PSVersion.ToString()
+      register: powershell_version_cmd
+      changed_when: false
+    - name: Extract powershell_version
+      set_fact:
+        powershell_version: "{{ powershell_version_cmd.stdout | \
+                             regex_replace('(.*)\\r\\n', '\\1') }}"
+    - name: Set upgrade_required
+      set_fact:
+        upgrade_required: "{{ powershell_version in ['3.0','4.0','5.0'] }}"
 - name: Request update of Powershell 5.1 after next reboot
   win_scheduled_task:
     name: Automatic update of Powershell to version 5.1
@@ -10,6 +23,7 @@
     actions:
       - path: "{{ powershell_path }}"
         arguments: choco install -y powershell
+  when: upgrade_required
   notify:
     - Reboot host to trigger update
     - Check update has started
