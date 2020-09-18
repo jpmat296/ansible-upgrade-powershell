@@ -5,8 +5,8 @@ driver:
   name: vagrant
   provider:
     name: virtualbox
-lint:
-  name: yamllint
+lint: |
+  yamllint .
 platforms:
   - name: vagrant-win2012r2
     box: jborean93/WindowsServer2012R2
@@ -26,9 +26,9 @@ provisioner:
         ansible_winrm_transport: ntlm
         ansible_winrm_scheme: https
         ansible_winrm_server_cert_validation: ignore
-  lint:
-    name: ansible-lint
+  lint: |
+    ansible-lint
 verifier:
   name: ansible
-  lint:
-    name: ansible-lint
+  lint: |
+    ansible-lint
