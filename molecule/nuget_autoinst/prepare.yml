@@ -1,0 +1,13 @@
+---
+- name: Prepare
+  hosts: all
+  tasks:
+    - name: Verify Powershell version before upgrade
+      block:
+        - win_shell: $PSVersionTable
+          register: version_cmd
+          changed_when: false
+        - assert:  # noqa 502
+            that:
+              - version_cmd.rc == 0
+              - "'PSVersion                      4.0' in version_cmd.stdout"
