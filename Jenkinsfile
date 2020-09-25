@@ -9,6 +9,14 @@ stage('root') {
            executeMoleculeScenario('default')
         }
       }
+    },
+    win2008r2: {
+      stage('win2008r2') {
+        node('nomaster') {
+          sleep 30
+          executeMoleculeScenario('win2008r2')
+        }
+      }
     }
   } catch (e) {
     currentBuild.result = 'FAILURE'
@@ -33,7 +41,7 @@ def executeMoleculeScenario(String scenario) {
             bash ~/bin/vms_destroy.sh || true
             source /usr/local/pyenv/.pyenvrc
             cd ansible-upgrade-powershell
-            pipenv install
+            pipenv sync
             export PATH=\$(pipenv --venv)/bin:\$PATH
             hash -r
             molecule create -s $scenario

@@ -1,6 +1,6 @@
 ---
 scenario:
-  name: default
+  name: win2008r2
 dependency:
   name: galaxy
 driver:
@@ -12,14 +12,15 @@ lint: |
   yamllint .
   ansible-lint
 platforms:
-  - name: vagrant-win2012r2
-    box: jborean93/WindowsServer2012R2
-    memory: 2048
+  - name: vagrant-win2008r2
+    box: jborean93/WindowsServer2008R2
+    provider_raw_config_args:  # 2020-09-25: without this option, Windows reboots indefinitely
+      - "customize ['modifyvm', :id, '--graphicscontroller', 'vboxsvga']"
 provisioner:
   name: ansible
   inventory:
     host_vars:
-      vagrant-win2012r2:
+      vagrant-win2008r2:
         ansible_user: vagrant
         ansible_password: vagrant
         ansible_port: 55986

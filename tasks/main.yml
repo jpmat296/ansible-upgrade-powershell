@@ -22,10 +22,12 @@
       - type: boot
     actions:
       - path: "{{ powershell_path }}"
-        arguments: choco install -y powershell
+        arguments: choco install -y -Force powershell
   when: upgrade_required
   notify:
     - Reboot host to trigger update
     - Check update has started
     - Wait end of update
     - Reboot host to take account new powershell
+- name: Force all handlers to run at this point, to take account the upgrade
+  meta: flush_handlers

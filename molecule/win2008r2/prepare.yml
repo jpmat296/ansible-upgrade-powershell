@@ -10,4 +10,4 @@
         - assert:  # noqa 502
             that:
               - version_cmd.rc == 0
-              - "'PSVersion                      4.0' in version_cmd.stdout"
+              - "'PSVersion                      3.0' in version_cmd.stdout"
