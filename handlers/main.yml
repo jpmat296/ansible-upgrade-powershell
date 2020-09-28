@@ -1,15 +1,15 @@
 ---
 # handlers file for upgrade_powershell
-- name: Reboot host to trigger update
+- name: Reboot host to trigger upgrade
   win_reboot: {}
-- name: Check update has started
+- name: Check upgrade has started
   win_wait_for_process:
     process_name_exact: choco
     state: present
-- name: Wait end of update
+- name: Wait end of upgrade
   win_wait_for_process:
     process_name_exact: choco
     state: absent
-    timeout: "{{ upgrade_powershell_wait_end_of_update_timeout | int }}"
+    timeout: "{{ upgrade_powershell_wait_end_of_upgrade_timeout | int }}"
 - name: Reboot host to take account new powershell
   win_reboot: {}
