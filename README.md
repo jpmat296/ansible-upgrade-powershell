@@ -1,6 +1,8 @@
 Ansible Role: Upgrade Powershell
 ================================
 
+[![CI](https://github.com/jpmat296/ansible-upgrade-powershell/workflows/CI/badge.svg?event=push)](https://github.com/jpmat296/ansible-upgrade-powershell/actions?query=workflow%3ACI)
+
 An ansible role to upgrade Windows PowerShell to version 5.1.
 
 It uses Chocolatey to upgrade PowerShell and Windows task scheduler to launch the

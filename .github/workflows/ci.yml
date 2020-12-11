@@ -1,0 +1,67 @@
+---
+name: CI
+
+on:  # yamllint disable-line rule:truthy
+  push:
+  pull_request:
+  schedule:
+    - cron: '10 2 * * 6'  # At 02:10 on Saturday
+
+env:
+  OBJC_DISABLE_INITIALIZE_FORK_SAFETY: 'YES'  # See ansible/ansible#49207
+  PY_COLORS: 1
+  ANSIBLE_FORCE_COLOR: 1
+
+jobs:
+
+  lint:
+    # nested virtualization is not possible for Ubuntu (issue actions/virtual-environments#183)
+    runs-on: macos-10.15
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install complementary brew packages
+        run: brew install pipenv
+
+      - name: Install Python Dependencies
+        run: pipenv sync
+
+      - name: Linters via molecule
+        run: |
+          pipenv run molecule lint
+          pipenv run molecule syntax
+
+  molecule:
+    # nested virtualization is not possible for Ubuntu (issue actions/virtual-environments#183)
+    runs-on: macos-10.15
+
+    strategy:
+      matrix:
+        scenario:
+          - default
+          - win2008r2
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install complementary brew packages
+        run: brew install pipenv
+
+      - name: Install Dependencies
+        run: pipenv sync
+
+      - name: Create VM
+        run: pipenv run molecule create --scenario-name ${{ matrix.scenario }}
+
+      - name: Converge
+        run: pipenv run molecule converge --scenario-name ${{ matrix.scenario }}
+
+      - name: Check idempotence
+        run: pipenv run molecule idempotence --scenario-name ${{ matrix.scenario }}
+
+      - name: Verify
+        run: pipenv run molecule verify --scenario-name ${{ matrix.scenario }}
+
+      - name: Destroy VM
+        run: pipenv run molecule destroy --scenario-name ${{ matrix.scenario }}
