@@ -63,5 +63,8 @@ jobs:
       - name: Verify
         run: pipenv run molecule verify --scenario-name ${{ matrix.scenario }}
 
+      - name: Check check mode
+        run: pipenv run molecule check --scenario-name ${{ matrix.scenario }}
+
       - name: Destroy VM
         run: pipenv run molecule destroy --scenario-name ${{ matrix.scenario }}

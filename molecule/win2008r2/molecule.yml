@@ -1,6 +1,8 @@
 ---
 scenario:
   name: win2008r2
+  check_sequence:
+    - check
 dependency:
   name: galaxy
 driver:
