@@ -12,6 +12,8 @@ ansible = "==2.9.*"
 pywinrm = "*"
 molecule-vagrant = "*"
 ansible-lint = "*"
+pyvmomi = "*"
+pyopenssl = "*"
 
 [requires]
 python_version = "3.8"
