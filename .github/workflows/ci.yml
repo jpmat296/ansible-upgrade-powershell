@@ -68,3 +68,4 @@ jobs:
 
       - name: Destroy VM
         run: pipenv run molecule destroy --scenario-name ${{ matrix.scenario }}
+        if: ${{ always() }}
